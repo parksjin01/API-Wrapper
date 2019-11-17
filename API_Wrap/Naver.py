@@ -161,8 +161,14 @@ def searching():
 """
     URL: https://developers.naver.com/products/shortenurl/
 """
-def shortenURL():
-    """TODO"""
+def shortenURL(url):
+
+    if True:
+        if type(url) != str:
+            raise AttributeError("[ERROR] url parameter should be string")
+
+    client.set_header("Content-Type", "application/x-www-form-urlencoded")
+    return client.post("https://openapi.naver.com/v1/util/shorturl.json", data={"url": url})
 
 """
     URL: https://developers.naver.com/products/captcha/
