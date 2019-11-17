@@ -1,3 +1,5 @@
+#-*- coding:utf-8 -*-
+
 from RestClient4py.client import RestClient
 from API_Wrap import util
 import pprint
@@ -43,13 +45,13 @@ def datalab_search(startDate, endDate, timeUnit, keywordGroups, device=None, gen
                     raise AttributeError("[ERROR] Key `groupName` is necessary in element of keywordGroups parameter")
 
                 try:
-                    if type(keyword["keyword"]) != list:
-                        raise AttributeError("[ERROR] Value of key `keyword` in keywordGroups parameter should be list of string")
-                    for k in keyword["keyword"]:
+                    if type(keyword["keywords"]) != list:
+                        raise AttributeError("[ERROR] Value of key `keywords` in keywordGroups parameter should be list of string")
+                    for k in keyword["keywords"]:
                         if type(k) != str:
-                            raise AttributeError("[ERROR] Value in list of keywordGroups.keyword should be string")
+                            raise AttributeError("[ERROR] Value in list of keywordGroups.keywords should be string")
                 except:
-                    raise AttributeError("[ERROR] Key `keyword` is necessary in element of keywordGroups parameter")
+                    raise AttributeError("[ERROR] Key `keywords` is necessary in element of keywordGroups parameter")
 
         if device and type(device) != str:
             raise AttributeError("[ERROR] device parameter should be string")
@@ -77,7 +79,6 @@ def datalab_search(startDate, endDate, timeUnit, keywordGroups, device=None, gen
         "keywordGroups": keywordGroups,
     }
 
-    print(client.headers)
     return client.post("https://openapi.naver.com/v1/datalab/search", data=json.dumps(posting_data).encode("utf-8"))
 
 
