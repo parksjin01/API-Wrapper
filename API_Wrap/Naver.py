@@ -169,9 +169,14 @@ def shortenURL(url):
     client.set_header("Content-Type", "application/x-www-form-urlencoded")
     return client.post("https://openapi.naver.com/v1/util/shorturl.json", data={"url": url})
 
-def captchaVerification(key, value):
+def imageCaptchaVerification(key, value):
     client.set_header("Accept", "*/*")
     result = client.get("https://openapi.naver.com/v1/captcha/nkey", params={"code": 1, "key": key, "value": value})
+    return result
+
+def voiceCaptchaVerification(key, value):
+    client.set_header("Accept", "*/*")
+    result = client.get("https://openapi.naver.com/v1/captcha/skey", params={"code": 1, "key": key, "value": value})
     return result
 
 """
@@ -187,7 +192,11 @@ def imageCaptcha():
     URL: https://developers.naver.com/produects/captach
 """
 def voiceCaptcha():
-    """TODO"""
+    client.set_header("Accept", "*/*")
+    code = json.loads(client.get("https://openapi.naver.com/v1/captcha/skey?code=0"))["key"]
+    voice = client.get("https://openapi.naver.com/v1/captcha/scaptcha", params={"key": code})
+    return code, voice
+
 """
     URL: https://developers.naver.com/products/navershare/
 """
