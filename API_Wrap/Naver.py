@@ -196,9 +196,3 @@ def voiceCaptcha():
     code = json.loads(client.get("https://openapi.naver.com/v1/captcha/skey?code=0"))["key"]
     voice = client.get("https://openapi.naver.com/v1/captcha/scaptcha", params={"key": code})
     return code, voice
-
-"""
-    URL: https://developers.naver.com/products/navershare/
-"""
-def naverShare():
-    """TODO"""
