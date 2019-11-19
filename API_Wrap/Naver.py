@@ -517,6 +517,42 @@ def searchingKIN(query, display=None, start=None, sort=None):
 
     return client.get("https://openapi.naver.com/v1/search/kin.json", params=getData)
 
+"""
+    URL: https://developers.naver.com/products/search/
+"""
+def searchingLocal(query, display=None, start=None, sort=None):
+
+    client.set_header("Accept", "*/*")
+
+    if type(query) != str:
+        raise AttributeError("[ERROR] query parameter should be string")
+
+    if display:
+        if type(display) != int:
+            raise AttributeError("[ERROR] display parameter should be int")
+        elif display < 1 or 30 < display:
+            raise AttributeError("[ERROR] display parameter value should be in 1 ~ 30")
+
+    if start:
+        if type(start) != int:
+            raise AttributeError("[ERROR] start parameter should be int")
+        elif start < 1 or 1000 < start:
+            raise AttributeError("[ERROR] start parameter value should be in 1 ~ 1,000")
+
+    if sort:
+        if type(sort) != str:
+            raise AttributeError("[ERROR] sort parameter should be str")
+        elif sort not in ["random", "comment"]:
+            raise AttributeError("[ERROR] sort parameter value should be [random / comment]")
+
+    getData = {
+        "query": query,
+        "display": display,
+        "start": start,
+        "sort": sort,
+    }
+
+    return client.get("https://openapi.naver.com/v1/search/kin.json", params=getData)
 
 """
     URL: https://developers.naver.com/products/shortenurl/
