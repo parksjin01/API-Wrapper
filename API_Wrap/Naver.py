@@ -81,7 +81,6 @@ def datalab_search(startDate, endDate, timeUnit, keywordGroups, device=None, gen
 
     return client.post("https://openapi.naver.com/v1/datalab/search", data=json.dumps(posting_data).encode("utf-8"))
 
-
 """
     URL: https://developers.naver.com/products/datalab/
 """
@@ -150,7 +149,6 @@ def datalab_shopping(startDate, endDate, timeUnit, category, device=None, gender
     }
 
     return client.post("https://openapi.naver.com/v1/datalab/shopping/categories", data=json.dumps(posting_data).encode("utf-8"))
-
 
 """
     URL: https://developers.naver.com/products/search/
@@ -295,6 +293,14 @@ def searchingBooks(query, display=None, start=None, sort=None, d_titl=None, d_au
         "display": display,
         "start": start,
         "sort": sort,
+        "d_titl": d_titl,
+        "d_auth": d_auth,
+        "d_cont": d_cont,
+        "d_isbn": d_isbn,
+        "d_publ": d_publ,
+        "d_dafr": d_dafr,
+        "d_dato": d_dato,
+        "d_catg": d_catg,
     }
 
     return client.get("https://openapi.naver.com/v1/search/book.json", params=getData)
