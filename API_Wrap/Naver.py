@@ -299,6 +299,21 @@ def searchingBooks(query, display=None, start=None, sort=None, d_titl=None, d_au
 
     return client.get("https://openapi.naver.com/v1/search/book.json", params=getData)
 
+"""
+    URL: https://developers.naver.com/products/search/
+"""
+def checkingAdult(query):
+
+    client.set_header("Accept", "*/*")
+
+    if type(query) != str:
+        raise AttributeError("[ERROR] query parameter should be string")
+
+    getData = {
+        "query": query,
+    }
+
+    return client.get("https://openapi.naver.com/v1/search/adult.json", params=getData)
 
 """
     URL: https://developers.naver.com/products/shortenurl/
