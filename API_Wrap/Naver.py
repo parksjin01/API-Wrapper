@@ -571,6 +571,37 @@ def correctingTypo(query):
     return client.get("https://openapi.naver.com/v1/search/errata.json", params=getData)
 
 """
+    URL: https://developers.naver.com/products/search/
+"""
+def searchingWeb(query, display=None, start=None):
+
+    client.set_header("Accept", "*/*")
+
+    if type(query) != str:
+        raise AttributeError("[ERROR] query parameter should be string")
+
+    if display:
+        if type(display) != int:
+            raise AttributeError("[ERROR] display parameter should be int")
+        elif display < 1 or 100 < display:
+            raise AttributeError("[ERROR] display parameter value should be in 1 ~ 100")
+
+    if start:
+        if type(start) != int:
+            raise AttributeError("[ERROR] start parameter should be int")
+        elif start < 1 or 1000 < start:
+            raise AttributeError("[ERROR] start parameter value should be in 1 ~ 1,000")
+
+    getData = {
+        "query": query,
+        "display": display,
+        "start": start,
+    }
+
+    return client.get("https://openapi.naver.com/v1/search/webkr.json", params=getData)
+
+
+"""
     URL: https://developers.naver.com/products/shortenurl/
 """
 def shortenURL(url):
