@@ -505,8 +505,8 @@ def searchingKIN(query, display=None, start=None, sort=None):
     if sort:
         if type(sort) != str:
             raise AttributeError("[ERROR] sort parameter should be str")
-        elif sort not in ["sim", "date"]:
-            raise AttributeError("[ERROR] sort parameter value should be [sim / date]")
+        elif sort not in ["sim", "date", "point"]:
+            raise AttributeError("[ERROR] sort parameter value should be [sim / date / point]")
 
     getData = {
         "query": query,
