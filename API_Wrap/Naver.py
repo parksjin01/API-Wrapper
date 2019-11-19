@@ -3,6 +3,7 @@
 from RestClient4py.client import RestClient
 from API_Wrap import util
 import json
+import re
 
 
 client_id, client_secret = util.naver_auth()
@@ -224,6 +225,80 @@ def searchingNews(query, display=None, start=None, sort=None):
     }
 
     return client.get("https://openapi.naver.com/v1/search/news.json", params=getData)
+
+"""
+    URL: https://developers.naver.com/products/search/
+"""
+def searchingBooks(query, display=None, start=None, sort=None, d_titl=None, d_auth=None, d_cont=None, d_isbn=None, d_publ=None, d_dafr=None, d_dato=None, d_catg=None):
+
+    client.set_header("Accept", "*/*")
+
+    if type(query) != str:
+        raise AttributeError("[ERROR] query parameter should be string")
+
+    if display:
+        if type(display) != int:
+            raise AttributeError("[ERROR] display parameter should be int")
+        elif display < 1 or 100 < display:
+            raise AttributeError("[ERROR] display parameter value should be in 1 ~ 100")
+
+    if start:
+        if type(start) != int:
+            raise AttributeError("[ERROR] start parameter should be int")
+        elif start < 1 or 1000 < start:
+            raise AttributeError("[ERROR] start parameter value should be in 1 ~ 1,000")
+
+    if sort:
+        if type(sort) != str:
+            raise AttributeError("[ERROR] sort parameter should be str")
+        elif sort not in ["sim", "date"]:
+            raise AttributeError("[ERROR] sort parameter value should be [sim / date]")
+
+    if d_titl:
+        if type(d_titl) != str:
+            raise AttributeError("[ERROR] d_titl parameter should be str")
+
+    if d_auth:
+        if type(d_auth) != str:
+            raise AttributeError("[ERROR] d_auth parameter should be str")
+
+    if d_cont:
+        if type(d_cont) != str:
+            raise AttributeError("[ERROR] d_cont parameter should be str")
+
+    if d_isbn:
+        if type(d_isbn) != str:
+            raise AttributeError("[ERROR] d_isbn parameter should be str")
+
+    if d_publ:
+        if type(d_publ) != str:
+            raise AttributeError("[ERROR] d_publ parameter should be str")
+
+    if d_dafr:
+        if type(d_dafr) != str:
+            raise AttributeError("[ERROR] d_dafr parameter should be str")
+        if len(d_dafr) != 8 or re.match(r"[0-9]{8}", d_dafr) != None:
+            raise AttributeError("[ERROR] d_dafr parameter format should be YYYYMMDD")
+
+    if d_dato:
+        if type(d_dato) != str:
+            raise AttributeError("[ERROR] d_dato parameter should be str")
+        if len(d_dato) != 8 or re.match(r"[0-9]{8}", d_dato) != None:
+            raise AttributeError("[ERROR] d_dato parameter format should be YYYYMMDD")
+
+    if d_catg:
+        if type(d_catg) != str:
+            raise AttributeError("[ERROR] d_catg parameter should be str")
+
+    getData = {
+        "query": query,
+        "display": display,
+        "start": start,
+        "sort": sort,
+    }
+
+    return client.get("https://openapi.naver.com/v1/search/book.json", params=getData)
+
 
 """
     URL: https://developers.naver.com/products/shortenurl/
