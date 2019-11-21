@@ -634,3 +634,11 @@ def translation(query, src_lang, target_lang):
                              "17        | ru             | 러시아어"
                              "18        | th             | 태국어"
                              "19        | tr             | 터키어")
+
+    postData = {
+        "query": query,
+        "src_lang": src_lang,
+        "target_lang": target_lang
+    }
+
+    return client.post("https://kapi.kakao.com/v1/translation/translate", data=postData)
