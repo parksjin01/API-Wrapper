@@ -642,3 +642,51 @@ def translation(query, src_lang, target_lang):
     }
 
     return client.post("https://kapi.kakao.com/v1/translation/translate", data=postData)
+
+"""
+    https://developers.kakao.com/docs/restapi/vision
+"""
+def faceRecognition(file, image_url, threshold=None):
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/vision
+"""
+def productsRecognition(image, image_url, threshold=None):
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/vision
+"""
+def createThumbnail(file, image_url, width, height):
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/vision
+"""
+def detectThumbnail(file, image_url, width, height):
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/vision
+"""
+def createMultiTag(file, image_url):
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/vision
+"""
+def detectAdultImage(file, image_url):
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/vision
+"""
+def detectOCR(file):
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/vision
+"""
+def recognizeOCR(file):
+    """TODO"""
