@@ -353,8 +353,34 @@ def coord2address(longitude, latitude, input_coord=None):
 """
     https://developers.kakao.com/docs/restapi/local
 """
-def transcoord():
-    """TODO"""
+def transcoord(longitude, latitude, input_coord=None, output_coord=None):
+
+    if type(longitude) != str:
+        raise AttributeError("[ERROR] longitude attribute should be string type")
+
+    if type(latitude) != str:
+        raise AttributeError("[ERROR] latitude attribute should be string type")
+
+    if input_coord:
+        if type(input_coord) != str:
+            raise AttributeError("[ERROR] input_coord attribute should be string type")
+        elif input_coord not in ["WGS84", "WCONGNAMUL", "CONGNAMUL", "WTM", "TM"]:
+            raise AttributeError("[ERROR] input_coord attribute should be one of [WGS / WCONGNAMUL / CONGNAMUL / WTM / TM]")
+
+    if output_coord:
+        if type(output_coord) != str:
+            raise AttributeError("[ERROR] output_coord attribute should be string type")
+        elif output_coord not in ["WGS84", "WCONGNAMUL", "CONGNAMUL", "WTM", "TM"]:
+            raise AttributeError("[ERROR] output_coord attribute should be one of [WGS / WCONGNAMUL / CONGNAMUL / WTM / TM]")
+
+    getData = {
+        "x": longitude,
+        "y": latitude,
+        "input_coord": input_coord,
+        "output_coord": output_coord,
+    }
+
+    return client.get("https://dapi.kakao.com/v2/local/geo/transcoord.json", params=getData)
 
 """
     https://developers.kakao.com/docs/restapi/local
