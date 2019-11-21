@@ -690,3 +690,15 @@ def detectOCR(file):
 """
 def recognizeOCR(file):
     """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/speech
+"""
+def audioRecognize(file):
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/speech
+"""
+def audioSynthesize(data):
+    """TODO"""
