@@ -187,8 +187,44 @@ def searchingTIP(query, sort=None, page=None, size=None):
 """
     https://developers.kakao.com/docs/restapi/search
 """
-def searchingBooks():
-    """TODO"""
+def searchingBooks(query, sort=None, page=None, size=None, target=None):
+
+    if type(query) != str:
+        raise AttributeError("[ERROR] query parameter should be string type")
+
+    if sort:
+        if type(sort) != str:
+            raise AttributeError("[ERROR] sort parameter should be string type")
+        elif sort not in ["accuracy", "latest"]:
+            raise AttributeError("[ERROR] sort parameter should be one of [accuracy / latest]")
+
+    if page:
+        if type(page) != int:
+            raise AttributeError("[ERROR] page parameter should be int type")
+        elif page < 1 or 100 < page:
+            raise AttributeError("[ERROR] page parameter should be between 1 ~ 100")
+
+    if size:
+        if type(size) != int:
+            raise AttributeError("[ERROR] size parameter should be int type")
+        elif size < 1 or 50 < size:
+            raise AttributeError("[ERROR] size parameter should be between 1 ~ 50")
+
+    if target:
+        if type(target) != str:
+            raise AttributeError("[ERROR] target parameter should be string type")
+        elif target not in ["title", "isbn", "publisher", "person"]:
+            raise AttributeError("[ERROR] target parameter should be one of [title / isbn / publisher / person]")
+
+    getData = {
+        "query": query,
+        "sort": sort,
+        "page": page,
+        "size": size,
+        "targer": target,
+    }
+
+    return client.get("https://dapi.kakao.com/v3/search/book", params=getData)
 
 """
     https://developers.kakao.com/docs/restapi/search
