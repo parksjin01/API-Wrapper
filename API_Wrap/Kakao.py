@@ -260,3 +260,58 @@ def searchingCafe(query, sort=None, page=None, size=None):
     }
 
     return client.get("https://dapi.kakao.com/v2/search/cafe", params=getData)
+
+"""
+    https://developers.kakao.com/docs/restapi/local
+"""
+def searchingAddress(query, page=None, size=None):
+
+    if type(query) != str:
+        raise AttributeError("[ERROR] query parameter should be string type")
+
+    if page:
+        if type(page) != int:
+            raise AttributeError("[ERROR] page parameter should be int type")
+
+    if size:
+        if type(size) != int:
+            raise AttributeError("[ERROR] size parameter should be int type")
+        elif size < 1 or 30 < size:
+            raise AttributeError("[ERROR] size parameter should be between 1 ~ 30")
+
+    getData = {
+        "query": query,
+        "page": page,
+        "size": size,
+    }
+
+    return client.get("https://dapi.kakao.com/v2/local/search/address.json", params=getData)
+"""
+    https://developers.kakao.com/docs/restapi/local
+"""
+def coord2regionCode():
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/local
+"""
+def coord2address():
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/local
+"""
+def transcoord():
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/local
+"""
+def searchingLocalWithKeyword():
+    """TODO"""
+
+"""
+    https://developers.kakao.com/docs/restapi/local
+"""
+def searchingLocalWithCategory():
+    """TODO"""
