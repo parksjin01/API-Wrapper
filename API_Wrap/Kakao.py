@@ -289,8 +289,41 @@ def searchingAddress(query, page=None, size=None):
 """
     https://developers.kakao.com/docs/restapi/local
 """
-def coord2regionCode():
-    """TODO"""
+def coord2regionCode(longitude, latitude, input_coord=None, output_coord=None, lang=None):
+
+    if type(longitude) != str:
+        raise AttributeError("[ERROR] longitude attribute should be string type")
+
+    if type(latitude) != str:
+        raise AttributeError("[ERROR] latitude attribute should be string type")
+
+    if input_coord:
+        if type(input_coord) != str:
+            raise AttributeError("[ERROR] input_coord attribute should be string type")
+        elif input_coord not in ["WGS84", "WCONGNAMUL", "CONGNAMUL", "WTM", "TM"]:
+            raise AttributeError("[ERROR] input_coord attribute should be one of [WGS / WCONGNAMUL / CONGNAMUL / WTM / TM]")
+
+    if output_coord:
+        if type(output_coord) != str:
+            raise AttributeError("[ERROR] output_coord attribute should be string type")
+        elif output_coord not in ["WGS84", "WCONGNAMUL", "CONGNAMUL", "WTM", "TM"]:
+            raise AttributeError("[ERROR] output_coord attribute should be one of [WGS / WCONGNAMUL / CONGNAMUL / WTM / TM]")
+
+    if lang:
+        if type(lang) != str:
+            raise AttributeError("[ERROR] lang attribute should be string type")
+        elif lang not in ["ko", "en"]:
+            raise AttributeError("[ERROR] lang attribute should be one of [ko / en]")
+
+    getData = {
+        "x": longitude,
+        "y": latitude,
+        "input_coord": input_coord,
+        "output_coord": output_coord,
+        "lang": lang
+    }
+
+    return client.get("https://dapi.kakao.com/v2/local/geo/coord2regioncode.json", params=getData)
 
 """
     https://developers.kakao.com/docs/restapi/local
