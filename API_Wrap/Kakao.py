@@ -699,8 +699,54 @@ def faceRecognition(file=None, image_url=None, threshold=None):
 """
     https://developers.kakao.com/docs/restapi/vision
 """
-def productsRecognition(image, image_url, threshold=None):
-    """TODO"""
+def productsRecognition(file=None, image_url=None, threshold=None):
+
+    if file == None and image_url == None:
+        raise AttributeError("[ERROR] One of file parameter or image_url parameter is mandatory")
+    elif file != None and image_url != None:
+        raise AttributeError("[ERROR] Only one of file parameter and image_url parameter can be used")
+
+    if file:
+        client.set_header("Content-Type", "multipart/form-data")
+        if type(file) != str:
+            raise AttributeError("[ERROR] file parameter should be string type")
+        if not os.path.exists(file):
+            raise AttributeError("[ERROR] {} file doesn't exist".format(file))
+        if not os.access(file, os.R_OK):
+            raise AttributeError("[ERROR] Opening {} file is permission denied".format(file))
+
+    if image_url:
+        client.set_header("Content-Type", "application/x-www-form-urlencoded")
+        if type(image_url) != str:
+            raise AttributeError("[ERROR] image_url parameter should be string type")
+
+    if threshold:
+        try:
+            threshold = float(threshold)
+        except:
+            pass
+
+        if type(threshold) != float:
+            raise AttributeError("[ERROR] threshold parameter should be float type")
+        elif threshold < 0 or 1 < threshold:
+            raise AttributeError("[ERROR] threshold parameter should be between 0.0 ~ 1.0")
+
+    if file:
+        with open(file, "rb") as f:
+            imageData = f.read()
+            client.set_header("Content-Length", len(imageData))
+    else:
+        imageData = None
+
+    postData = {
+        "file": imageData,
+        "image_url": image_url,
+        "threshold": threshold
+    }
+
+    # print(client)
+
+    return client.post("https://kapi.kakao.com/v1/vision/product/detect", data=postData)
 
 """
     https://developers.kakao.com/docs/restapi/vision
