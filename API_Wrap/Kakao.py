@@ -699,6 +699,15 @@ def audioRecognize(file):
 
 """
     https://developers.kakao.com/docs/restapi/speech
+    SSML GUIDE: https://developers.kakao.com/assets/guide/kakao_ssml_guide.pdf
 """
 def audioSynthesize(data):
-    """TODO"""
+
+    client.set_header("Content-Type", "application/xml")
+
+    if type(data) != str:
+        raise AttributeError("[ERROR] data attribute should be string type")
+    else:
+        """TODO"""
+
+    return client.post("https://kakaoi-newtone-openapi.kakao.com/v1/synthesize", data=data.encode("utf-8"))
