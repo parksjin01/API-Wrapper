@@ -751,8 +751,60 @@ def productsRecognition(file=None, image_url=None, threshold=None):
 """
     https://developers.kakao.com/docs/restapi/vision
 """
-def createThumbnail(file, image_url, width, height):
-    """TODO"""
+def createThumbnail(width, height, file=None, image_url=None):
+
+    try:
+        width = int(width)
+    except:
+        pass
+
+    if type(width) != int:
+        raise AttributeError("[ERROR] width parameter should be int type")
+
+    try:
+        height = int(height)
+    except:
+        pass
+
+    if type(height) != int:
+        raise AttributeError("[ERROR] height parameter should be int type")
+
+    if file == None and image_url == None:
+        raise AttributeError("[ERROR] One of file parameter or image_url parameter is mandatory")
+    elif file != None and image_url != None:
+        raise AttributeError("[ERROR] Only one of file parameter and image_url parameter can be used")
+
+    if file:
+        client.set_header("Content-Type", "multipart/form-data")
+        if type(file) != str:
+            raise AttributeError("[ERROR] file parameter should be string type")
+        if not os.path.exists(file):
+            raise AttributeError("[ERROR] {} file doesn't exist".format(file))
+        if not os.access(file, os.R_OK):
+            raise AttributeError("[ERROR] Opening {} file is permission denied".format(file))
+
+    if image_url:
+        client.set_header("Content-Type", "application/x-www-form-urlencoded")
+        if type(image_url) != str:
+            raise AttributeError("[ERROR] image_url parameter should be string type")
+
+    if file:
+        with open(file, "rb") as f:
+            imageData = f.read()
+            client.set_header("Content-Length", len(imageData))
+    else:
+        imageData = None
+
+    postData = {
+        "file": imageData,
+        "image_url": image_url,
+        "width": width,
+        "height": height
+    }
+
+    # print(client)
+
+    return client.post("https://kapi.kakao.com/v1/vision/thumbnail/crop", data=postData)
 
 """
     https://developers.kakao.com/docs/restapi/vision
