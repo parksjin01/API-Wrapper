@@ -946,7 +946,31 @@ def detectAdultImage(file=None, image_url=None):
     https://developers.kakao.com/docs/restapi/vision
 """
 def detectOCR(file):
-    """TODO"""
+
+    if file:
+        client.set_header("Content-Type", "multipart/form-data")
+        if type(file) != str:
+            raise AttributeError("[ERROR] file parameter should be string type")
+        if not os.path.exists(file):
+            raise AttributeError("[ERROR] {} file doesn't exist".format(file))
+        if not os.access(file, os.R_OK):
+            raise AttributeError("[ERROR] Opening {} file is permission denied".format(file))
+
+    if file:
+        with open(file, "rb") as f:
+            imageData = f.read()
+            client.set_header("Content-Length", len(imageData))
+    else:
+        imageData = None
+
+    postData = {
+        "file": imageData,
+    }
+
+    # print(client)
+
+    return client.post("https://kapi.kakao.com/v1/vision/text/detect", data=postData)
+
 
 """
     https://developers.kakao.com/docs/restapi/vision
