@@ -1,8 +1,6 @@
 from RestClient4py.client import RestClient
 from API_Wrap import util
 import os
-import json
-import re
 
 
 kakao_native_app_key, kakao_rest_api_key, kakao_javascript_key, kakao_admin_key = util.kakao_auth()
@@ -976,7 +974,20 @@ def detectOCR(file):
     https://developers.kakao.com/docs/restapi/vision
 """
 def recognizeOCR(file):
-    """TODO"""
+    boxes = detectOCR(file)["result"]["boxes"]
+
+    if boxes != None:
+        with open(file, "rb") as f:
+            imageData = f.read()
+            client.set_header("Content-Length", len(imageData))
+
+        postData = {
+            "file": imageData,
+            "boxes": boxes,
+        }
+
+        return client.post("https://kapi.kakao.com/v1/vision/text/recognize", postData)
+
 
 """
     https://developers.kakao.com/docs/restapi/speech
