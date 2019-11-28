@@ -647,13 +647,14 @@ def translation(query, src_lang, target_lang):
 """
 def faceRecognition(file=None, image_url=None, threshold=None):
 
+    postData = {}
+
     if file == None and image_url == None:
         raise AttributeError("[ERROR] One of file parameter or image_url parameter is mandatory")
     elif file != None and image_url != None:
         raise AttributeError("[ERROR] Only one of file parameter and image_url parameter can be used")
 
     if file:
-        client.set_header("Content-Type", "multipart/form-data")
         if type(file) != str:
             raise AttributeError("[ERROR] file parameter should be string type")
         if not os.path.exists(file):
@@ -677,20 +678,13 @@ def faceRecognition(file=None, image_url=None, threshold=None):
         elif threshold < 0 or 1 < threshold:
             raise AttributeError("[ERROR] threshold parameter should be between 0.0 ~ 1.0")
 
+        postData["threshold"] = threshold
+
     if file:
-        with open(file, "rb") as f:
-            imageData = f.read()
-            client.set_header("Content-Length", len(imageData))
+        client.files = {"file": open(file, "rb")}
     else:
-        imageData = None
-
-    postData = {
-        "file": imageData,
-        "image_url": image_url,
-        "threshold": threshold
-    }
-
-    # print(client)
+        client.files = None
+        postData["image_url"] = image_url
 
     return client.post("https://kapi.kakao.com/v1/vision/face/detect", data=postData)
 
