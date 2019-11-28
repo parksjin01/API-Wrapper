@@ -888,13 +888,16 @@ def createMultiTag(file=None, image_url=None):
 """
 def detectAdultImage(file=None, image_url=None):
 
+    postData = {}
+
     if file == None and image_url == None:
         raise AttributeError("[ERROR] One of file parameter or image_url parameter is mandatory")
     elif file != None and image_url != None:
         raise AttributeError("[ERROR] Only one of file parameter and image_url parameter can be used")
 
     if file:
-        client.set_header("Content-Type", "multipart/form-data")
+        # client.set_header("Content-Type", "multipart/form-data")
+        client.clear_header("Content-Type")
         if type(file) != str:
             raise AttributeError("[ERROR] file parameter should be string type")
         if not os.path.exists(file):
@@ -903,23 +906,16 @@ def detectAdultImage(file=None, image_url=None):
             raise AttributeError("[ERROR] Opening {} file is permission denied".format(file))
 
     if image_url:
+        client.clear_header("Content-Type")
         client.set_header("Content-Type", "application/x-www-form-urlencoded")
         if type(image_url) != str:
             raise AttributeError("[ERROR] image_url parameter should be string type")
 
     if file:
-        with open(file, "rb") as f:
-            imageData = f.read()
-            client.set_header("Content-Length", len(imageData))
+        client.files = {"file": open(file, "rb")}
     else:
-        imageData = None
-
-    postData = {
-        "file": imageData,
-        "image_url": image_url,
-    }
-
-    # print(client)
+        client.files = None
+        postData["image_url"] = image_url
 
     return client.post("https://kapi.kakao.com/v1/vision/adult/detect", data=postData)
 
