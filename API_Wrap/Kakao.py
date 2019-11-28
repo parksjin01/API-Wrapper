@@ -925,7 +925,7 @@ def detectAdultImage(file=None, image_url=None):
 def detectOCR(file):
 
     if file:
-        client.set_header("Content-Type", "multipart/form-data")
+        client.clear_header("Content-Type")
         if type(file) != str:
             raise AttributeError("[ERROR] file parameter should be string type")
         if not os.path.exists(file):
@@ -934,19 +934,11 @@ def detectOCR(file):
             raise AttributeError("[ERROR] Opening {} file is permission denied".format(file))
 
     if file:
-        with open(file, "rb") as f:
-            imageData = f.read()
-            client.set_header("Content-Length", len(imageData))
-    else:
-        imageData = None
-
-    postData = {
-        "file": imageData,
-    }
+        client.files = {"file": open(file, "rb")}
 
     # print(client)
 
-    return client.post("https://kapi.kakao.com/v1/vision/text/detect", data=postData)
+    return client.post("https://kapi.kakao.com/v1/vision/text/detect")
 
 
 """
