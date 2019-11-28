@@ -766,6 +766,7 @@ def createThumbnail(width, height, file=None, image_url=None):
         raise AttributeError("[ERROR] Only one of file parameter and image_url parameter can be used")
 
     if file:
+        client.clear_header("Content-Type")
         if type(file) != str:
             raise AttributeError("[ERROR] file parameter should be string type")
         if not os.path.exists(file):
@@ -774,6 +775,7 @@ def createThumbnail(width, height, file=None, image_url=None):
             raise AttributeError("[ERROR] Opening {} file is permission denied".format(file))
 
     if image_url:
+        client.clear_header("Content-Type")
         client.set_header("Content-Type", "application/x-www-form-urlencoded")
         if type(image_url) != str:
             raise AttributeError("[ERROR] image_url parameter should be string type")
