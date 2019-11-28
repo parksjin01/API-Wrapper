@@ -739,6 +739,8 @@ def productsRecognition(file=None, image_url=None, threshold=None):
 """
 def createThumbnail(width, height, file=None, image_url=None):
 
+    postData = {}
+
     try:
         width = int(width)
     except:
@@ -752,6 +754,9 @@ def createThumbnail(width, height, file=None, image_url=None):
     except:
         pass
 
+    postData["width"] = width
+    postData["height"] = height
+
     if type(height) != int:
         raise AttributeError("[ERROR] height parameter should be int type")
 
@@ -761,7 +766,6 @@ def createThumbnail(width, height, file=None, image_url=None):
         raise AttributeError("[ERROR] Only one of file parameter and image_url parameter can be used")
 
     if file:
-        client.set_header("Content-Type", "multipart/form-data")
         if type(file) != str:
             raise AttributeError("[ERROR] file parameter should be string type")
         if not os.path.exists(file):
@@ -775,18 +779,10 @@ def createThumbnail(width, height, file=None, image_url=None):
             raise AttributeError("[ERROR] image_url parameter should be string type")
 
     if file:
-        with open(file, "rb") as f:
-            imageData = f.read()
-            client.set_header("Content-Length", len(imageData))
+        client.files = {"file": open(file, "rb")}
     else:
-        imageData = None
-
-    postData = {
-        "file": imageData,
-        "image_url": image_url,
-        "width": width,
-        "height": height
-    }
+        client.files = None
+        postData["image_url"] = image_url
 
     # print(client)
 
